@@ -1,14 +1,18 @@
 # coding: utf-8
 
 
-from __future__ import unicode_literals
 import os
-import pexpect
+
+# Import pexpect
+if os.name == 'nt':
+    import winpexpect
+else:
+    import pexpect
 
 
 class parser:
     """The parser class
-    
+
     It opens a new process of the jar file, and waits for sentences.
 
     Example usage:
@@ -20,7 +24,7 @@ class parser:
     It's recommended to call the terminate method after all work,
     since the parser occupies quite a lot memory.
     """
-    
+
     def __init__(self, jar_path, grammar_path):
         """Specify the path to the parser jar file
         and the grammar file.
@@ -34,17 +38,24 @@ class parser:
             raise Exception("Invalid grammar file")
 
         cmd = 'java -jar %s -gr %s' % (jar_path, grammar_path)
-        self.parser = pexpect.spawn(cmd)
+        if os.name == 'nt':
+            self.parser = winpexpect.winspawn(cmd)
+        else:
+            self.parser = pexpect.spawn(cmd)
 
     def parse(self, sent):
         """Parse a sentence into a tree string.
-        
+
         Sentence more than 200 words can't be parsed due to the Berkeley
         parser limitation.
         """
 
         self.parser.sendline(sent)
-        self.parser.expect('\r\n.*\r\n')
+        if os.name == 'nt':
+            pattern = '.*'
+        else:
+            pattern = '\r\n.*\r\n'
+        self.parser.expect(pattern)
         return self.parser.after.strip()
 
     def terminate(self):
@@ -53,14 +64,17 @@ class parser:
 
 def demo():
     import os
-    jar = os.path.join(os.environ['HOME'],
-                       'bin/berkeley_parser/BerkeleyParser-1.7.jar')
-    gr = os.path.join(os.environ['HOME'],
-                      'bin/berkeley_parser/eng_sm6.gr')
+    if os.name == 'nt':
+        home = os.environ['HOMEPATH']
+    else:
+        home = os.environ['HOME']
+    jar = os.path.join(home,
+                       'bin', 'berkeley_parser', 'BerkeleyParser-1.7.jar')
+    gr = os.path.join(home,
+                      'bin', 'berkeley_parser', 'eng_sm6.gr')
 
-    print "Initializing the parser..."
+    print "Initializing the parser...\n"
     p = parser(jar, gr)
-    print "Done\n"
 
     sentences = ["This is an apple",
                  "This is a tree",

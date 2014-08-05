@@ -11,11 +11,11 @@ later, including multi thread processing. :)
 
 ## Requirements
 
-* Unix system (windows version will be added soon)
 * python 2.7
 * Java
 * [BerkeleyParser](http://code.google.com/p/berkeleyparser/downloads/list) jar file and grammar files (make sure that it works under your java version)
-* Python package `pexpect` (install by `pip install pexpect`)
+* For linux/mac: Python package `pexpect` (install by `pip install pexpect`)
+* For windows: Python package `winpexpect` (install by `pip install winpexpect`)
 
 ## Usage
 
@@ -26,3 +26,5 @@ later, including multi thread processing. :)
 >>> print tree
 ( (S (NP (DT This)) (VP (VBZ is) (NP (DT an) (NN apple)))) )
 ```
+
+Initialization of the parser might take a short while, please don't be desparate.
