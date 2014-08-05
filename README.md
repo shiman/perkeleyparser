@@ -17,6 +17,12 @@ later, including multi thread processing. :)
 * [BerkeleyParser](http://code.google.com/p/berkeleyparser/downloads/list) jar file and grammar files (make sure that it works under your java version)
 * Python package `pexpect` (install by `pip install pexpect`)
 
-## Implementation
+## Usage
 
-
+```python
+>>> from BerkeleyParser import parser
+>>> p = parser(jar_path, gr_path)
+>>> tree = p.parse("This is an apple")
+>>> print tree
+( (S (NP (DT This)) (VP (VBZ is) (NP (DT an) (NN apple)))) )
+```
