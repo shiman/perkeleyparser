@@ -2,8 +2,8 @@
 
 
 from __future__ import unicode_literals
-import pexpect
 import os
+import pexpect
 
 
 class parser:
@@ -66,7 +66,7 @@ def demo():
                  "This is a tree",
                  "Please read the document",
                  "Thanks for your help",
-                 "It's a funny day"]
+                 "It 's a funny day"]
 
     for s in sentences:
         print p.parse(s)
