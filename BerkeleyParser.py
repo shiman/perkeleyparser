@@ -43,6 +43,9 @@ class parser:
         else:
             self.parser = pexpect.spawn(cmd)
 
+        # Pass in a dumb sentence to fully initialize
+        tmp = self.parse('')
+
     def parse(self, sent):
         """Parse a sentence into a tree string.
 
@@ -75,6 +78,7 @@ def demo():
 
     print "Initializing the parser...\n"
     p = parser(jar, gr)
+    print "Initialization complete."
 
     sentences = ["This is an apple",
                  "This is a tree",
